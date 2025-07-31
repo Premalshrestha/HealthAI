@@ -102,43 +102,51 @@
 
                 <!-- Quick Actions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-diagnosis">
+                    <a href="{% url 'diagnosis' %}" >
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" >
                         <div class="flex items-center">
                             <div class="bg-primary bg-opacity-10 rounded-lg p-3 mr-4">
                                 <i class="fas fa-brain text-primary text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900">AI Diagnosis</h3>
-                                <p class="text-gray-600 text-sm">Analyze symptoms</p>
+                                
+                                    <h3 class="text-lg font-semibold text-gray-900" id="quick-diagnosis">AI Diagnosis</h3>
+                                    <p class="text-gray-600 text-sm">Analyze symptoms</p>
+                                
                             </div>
                         </div>
                     </div>
-
-                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-family">
-                        <div class="flex items-center">
-                            <div class="bg-secondary bg-opacity-10 rounded-lg p-3 mr-4">
-                                <i class="fas fa-users text-secondary text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Family Health</h3>
-                                <p class="text-gray-600 text-sm">Monitor loved ones</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-consultation">
-                        <div class="flex items-center">
-                            <div class="bg-accent bg-opacity-10 rounded-lg p-3 mr-4">
-                                <i class="fas fa-user-md text-accent text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Consult Doctor</h3>
-                                <p class="text-gray-600 text-sm">Book appointment</p>
+                    </a>
+                    
+                    <a href="{% url 'family' %}">
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-family">
+                            <div class="flex items-center">
+                                <div class="bg-secondary bg-opacity-10 rounded-lg p-3 mr-4">
+                                    <i class="fas fa-users text-secondary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Family Health</h3>
+                                    <p class="text-gray-600 text-sm">Monitor loved ones</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-emergency">
+                    <a href="{% url 'doctors' %}">
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-consultation">
+                            <div class="flex items-center">
+                                <div class="bg-accent bg-opacity-10 rounded-lg p-3 mr-4">
+                                    <i class="fas fa-user-md text-accent text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Consult Doctor</h3>
+                                    <p class="text-gray-600 text-sm">Book appointment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div id="emergency-btn" onclick="toggleEmergencyModal()" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-emergency">
                         <div class="flex items-center">
                             <div class="bg-medical bg-opacity-10 rounded-lg p-3 mr-4">
                                 <i class="fas fa-ambulance text-medical text-xl"></i>
