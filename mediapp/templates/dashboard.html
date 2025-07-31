@@ -1,0 +1,394 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medimate - AI-Powered Health Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        medical: '#EF4444',
+                        success: '#22C55E',
+                        warning: '#F59E0B',
+                        error: '#EF4444'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav  class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-heartbeat text-primary text-2xl mr-2"></i>
+                        <span class="text-2xl font-bold text-gray-900">Medimate</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="nav-dashboard" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
+                    </button>
+                    <button id="nav-diagnosis" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-stethoscope mr-1"></i> AI Diagnosis
+                    </button>
+
+
+                    <button id="nav-family" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-users mr-1"></i> Family
+                    </button>
+                    <button id="nav-consultations" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-video mr-1"></i> Doctors
+                    </button>
+                    <div class="relative">
+                        <button id="profile-btn" class="flex items-center space-x-2 text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <img id="user-avatar" src="" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+                            <span id="user-name">Premal</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                            <div class="py-2">
+                                <button id="view-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-user mr-2"></i>View Profile
+                                </button>
+                                <button id="edit-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i>Edit Profile
+                                </button>
+                                <button id="settings" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </button>
+                                
+                                <hr class="my-2">
+                                <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="emergency-btn" class="bg-medical text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-1"></i> Emergency
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+        <!-- Main Content -->
+    <main class="pt-16 min-h-screen">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900">Health Dashboard</h1>
+                    <p class="text-gray-600 mt-2">Your comprehensive health overview</p>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-diagnosis">
+                        <div class="flex items-center">
+                            <div class="bg-primary bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-brain text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">AI Diagnosis</h3>
+                                <p class="text-gray-600 text-sm">Analyze symptoms</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-family">
+                        <div class="flex items-center">
+                            <div class="bg-secondary bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-users text-secondary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Family Health</h3>
+                                <p class="text-gray-600 text-sm">Monitor loved ones</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-consultation">
+                        <div class="flex items-center">
+                            <div class="bg-accent bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-user-md text-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Consult Doctor</h3>
+                                <p class="text-gray-600 text-sm">Book appointment</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" id="quick-emergency">
+                        <div class="flex items-center">
+                            <div class="bg-medical bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-ambulance text-medical text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Emergency</h3>
+                                <p class="text-gray-600 text-sm">Get immediate help</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Overview -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- User Profile Card -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <img id="dashboard-avatar" src="" alt="Profile" class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900" id="dashboard-name">Premal Shrestha</h2>
+                                <p class="text-gray-600" id="dashboard-email">premal@mymail.com</p>
+                                <p class="text-sm text-gray-500" id="dashboard-age">Age: 25</p>
+
+
+
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="text-center p-3 bg-blue-50 rounded-lg">
+                                <div class="text-2xl font-bold text-primary" id="total-consultations">12</div>
+                                <div class="text-xs text-gray-600">Consultations</div>
+                            </div>
+                            <div class="text-center p-3 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-secondary" id="family-members-count">3</div>
+                                <div class="text-xs text-gray-600">Family Members</div>
+                            </div>
+                        </div>
+                        
+                        <button id="view-full-profile" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-user mr-2"></i>View Full Profile
+                        </button>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Recent Health Activity</h2>
+                            <div id="health-activity" class="space-y-4">
+                                <!-- Activity items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Upcoming</h2>
+                            <div id="upcoming-items" class="space-y-3">
+                                <!-- Upcoming items will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Health Score</h2>
+                            <div class="text-center">
+                                <div class="relative w-24 h-24 mx-auto mb-4">
+                                    <svg class="w-24 h-24 transform -rotate-90">
+                                        <circle
+                                            cx="48"
+                                            cy="48"
+                                            r="40"
+                                            stroke="#E5E7EB"
+                                            stroke-width="8"
+                                            fill="transparent"
+                                        />
+                                        <circle
+                                            cx="48"
+                                            cy="48"
+                                            r="40"
+                                            stroke="#10B981"
+                                            stroke-width="8"
+                                            fill="transparent"
+                                            stroke-dasharray="251.2"
+                                            stroke-dashoffset="62.8"
+                                            class="transition-all duration-1000"
+                                        />
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="text-2xl font-bold text-secondary">85</span>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600">Excellent health status</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+<!-- AI Diagnosis Section -->
+<section id="diagnosis-section" class="section">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-900">AI-Powered Diagnosis</h1>
+            <p class="text-gray-600 mt-2">Select the type of health assessment you need</p>
+        </div>
+
+        <!-- Disease Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+            <!-- General Symptoms Checker -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="general">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-blue-100 rounded-full p-4 mb-4">
+                        <i class="fas fa-head-side-cough text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag/">General Symptoms Check</a></h3>
+                    <p class="text-gray-600 text-sm mt-2">Check common symptoms like fever, cough, headache</p>
+                </div>
+            </div>
+
+            <!-- Diabetes Prediction -->
+             <label for="ai_diag3">
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="diabetes">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-green-100 rounded-full p-4 mb-4">
+                        <i class="fas fa-vial text-green-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag3/" id="ai_diag3">Diabetes Check</a></h3>
+                    <p class="text-gray-600 text-sm mt-2">Assess your risk for diabetes based on health metrics</p>
+                </div>
+            </div>
+            </label>
+            <!-- Heart Disease -->
+            <label for="heartDiseaseCheck">
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="heart">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-red-100 rounded-full p-4 mb-4">
+                        <i class="fas fa-heartbeat text-red-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag1/" id="heartDiseaseCheck">Heart Health Check</a></h3>
+                    <p class="text-gray-600 text-sm mt-2">Evaluate your cardiovascular health risk</p>
+                </div>
+            </div>
+            </label>
+
+            <!-- Skin Disease -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="skin">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-yellow-100 rounded-full p-4 mb-4">
+                        <i class="fas fa-allergies text-yellow-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag2/">Dengue Check</a></h3>
+                    <p class="text-gray-600 text-sm mt-2">Analyze Dengue from Symptoms</p>
+                </div>
+            </div>
+
+
+
+
+
+        <!-- Diagnosis Form (Hidden by default) -->
+        <div id="diagnosis-form-container" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex items-center mb-4">
+                    <button id="back-to-categories" class="mr-4 text-gray-500 hover:text-primary">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 id="diagnosis-title" class="text-xl font-semibold text-gray-900">General Symptoms Check</h2>
+                </div>
+                
+                <!-- Dynamic form content will be loaded here -->
+                <div id="diagnosis-form-content">
+                    <!-- Form will be populated by JavaScript based on disease type -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Results (Hidden by default) -->
+        <div id="analysis-results" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Analysis Results</h2>
+                <div id="diagnosis-content">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        <!-- Family Section -->
+        <section id="family-section" class="section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">Family Health</h1>
+                        <p class="text-gray-600 mt-2">Monitor and manage your family's health</p>
+                    </div>
+                    <button id="add-family-member" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>
+                        <a href="/member/">View or Add Member</a>
+                    </button>
+                </div>
+
+                <!-- Family Members -->
+                <div id="family-members" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Family member cards will be populated by JavaScript -->
+                </div>
+
+                <!-- Family Health Insights -->
+                <div class="mt-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Family Health Insights</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary">4</div>
+                                <p class="text-gray-600">Active Members</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent">2</div>
+                                <p class="text-gray-600">Medications Tracked</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary">12</div>
+                                <p class="text-gray-600">Health Records</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consultations Section -->
+        <section id="consultations-section" class="section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900">Doctor Consultations</h1>
+                    <p class="text-gray-600 mt-2">Connect with healthcare professionals</p>
+                </div>
+
+                <div class=>
+                    <!-- Available Doctors -->
+                    <div class="grid grid-cols-3 lg:grid-cols-3 gap-8 ">
+                        <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-4">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Available Doctors</h2>
+                            <div id="doctors-list" class="space-y-4">
+                                <!-- Doctors will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+</body>
+</html>
