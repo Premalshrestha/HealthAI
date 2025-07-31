@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 import re
 from .models import UserProfile
 # Create your views here.
@@ -79,11 +81,30 @@ def user_signup(request):
         return redirect('login')
 
     return render(request, 'signup.html')
-from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def dashboard(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-
     return render(request, 'dashboard.html')
+
+@login_required
+def diagnosis(request):
+    return render(request, 'diagnosis.html')
+
+@login_required
+def family(request):
+    return render(request, 'family.html')
+
+@login_required
+def doctors(request):   
+    return render(request, 'doctors.html')
+@login_required
+def profile(request):   
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'profile.html', {'profile': user_profile})           
+
+def user_logout(request):
+    
+    logout(request)
+    return redirect('landing_page')
 

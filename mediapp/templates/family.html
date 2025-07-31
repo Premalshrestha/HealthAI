@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medimate - AI-Powered Health Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        medical: '#EF4444',
+                        success: '#22C55E',
+                        warning: '#F59E0B',
+                        error: '#EF4444'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav  class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-heartbeat text-primary text-2xl mr-2"></i>
+                        <span class="text-2xl font-bold text-gray-900">Medimate</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'dashboard' %}">
+                        <button id="nav-dashboard" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
+                        </button>
+                    </a>
+                    <a href="{% url 'diagnosis' %}">
+                        <button id="nav-diagnosis" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-stethoscope mr-1"></i> AI Diagnosis
+                        </button>
+                    </a>
+
+
+                    <a href="{% url 'family' %}">
+                        <button id="nav-family" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-users mr-1"></i> Family
+                        </button>
+                    </a>
+                    <a href="{% url 'doctors' %}">
+                        <button id="nav-consultations" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-video mr-1"></i> Doctors
+                        </button>
+                    </a>
+                    <!-- Profile Trigger Button -->
+                    <div class="relative inline-block text-left">
+                    <button id="profile-toggle" class="flex items-center space-x-2 focus:outline-none">
+                        <i class="fas fa-user-circle text-2xl text-gray-700"></i>
+                        <span class="text-gray-700">Profile</span>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                        <div class="py-2">
+                        <button id="view-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-user mr-2"></i>View Profile
+                        </button>
+                        <button id="edit-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button id="settings" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-cog mr-2"></i>Settings
+                        </button>
+                        <hr class="my-2">
+                        <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                    <button id="emergency-btn" onclick="toggleEmergencyModal()" class="bg-medical text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-1"></i> Emergency
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="family-section" class="section">
+            <div class="mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">Family Health</h1>
+                        <p class="text-gray-600 mt-2">Monitor and manage your family's health</p>
+                    </div>
+                    <button id="add-family-member" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>
+                        <a href="/member/">View or Add Member</a>
+                    </button>
+                </div>
+
+                <!-- Family Members -->
+                <div id="family-members" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Family member cards will be populated by JavaScript -->
+                </div>
+
+                <!-- Family Health Insights -->
+                <div class="mt-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Family Health Insights</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary">4</div>
+                                <p class="text-gray-600">Active Members</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent">2</div>
+                                <p class="text-gray-600">Medications Tracked</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary">12</div>
+                                <p class="text-gray-600">Health Records</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- This is profile js -->
+    <script>
+    const profileToggle = document.getElementById('profile-toggle');
+    const profileDropdown = document.getElementById('profile-dropdown');
+
+    // Toggle dropdown
+    profileToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent click from propagating to window
+        profileDropdown.classList.toggle('hidden');
+    });
+
+    // Hide dropdown when clicking outside
+    window.addEventListener('click', function (e) {
+        if (!profileDropdown.contains(e.target)) {
+        profileDropdown.classList.add('hidden');
+        }
+    });
+    </script>
+
+<script src="{% static 'js/emergency.js' %}"></script>
+</body>
+</html>

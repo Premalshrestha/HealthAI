@@ -40,50 +40,57 @@
                     <button id="nav-dashboard" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
                         <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                     </button>
-                    <button id="nav-diagnosis" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
-                        <i class="fas fa-stethoscope mr-1"></i> AI Diagnosis
-                    </button>
-
-
-                    <button id="nav-family" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
-                        <i class="fas fa-users mr-1"></i> Family
-                    </button>
-                    <button id="nav-consultations" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
-                        <i class="fas fa-video mr-1"></i> Doctors
-                    </button>
-                    <div class="relative">
-                        <button id="profile-btn" class="flex items-center space-x-2 text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
-                            <img id="user-avatar" src="" alt="Profile" class="w-8 h-8 rounded-full object-cover">
-                            <span id="user-name">Premal</span>
-                            <i class="fas fa-chevron-down text-xs"></i>
+                    <a href="{% url 'diagnosis' %}">
+                        <button id="nav-diagnosis" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-stethoscope mr-1"></i> AI Diagnosis
                         </button>
-                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
-                            <div class="py-2">
-                                <button id="view-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                    <i class="fas fa-user mr-2"></i>View Profile
-                                </button>
-                                <button id="edit-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                    <i class="fas fa-edit mr-2"></i>Edit Profile
-                                </button>
-                                <button id="settings" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                    <i class="fas fa-cog mr-2"></i>Settings
-                                </button>
-                                
-                                <hr class="my-2">
-                                <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                                </button>
-                            </div>
+                    </a>
+
+
+                    <a href="{% url 'family' %}">
+                        <button id="nav-family" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-users mr-1"></i> Family
+                        </button>
+                    </a>
+                    <a href="{% url 'doctors' %}">
+                        <button id="nav-consultations" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <i class="fas fa-video mr-1"></i> Doctors
+                        </button>
+                    </a>
+                    <!-- Profile Trigger Button -->
+                    <div class="relative inline-block text-left">
+                    <button id="profile-toggle" class="flex items-center space-x-2 focus:outline-none">
+                        <i class="fas fa-user-circle text-2xl text-gray-700"></i>
+                        <span class="text-gray-700">Profile</span>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                        <div class="py-2">
+                        <button id="view-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-user mr-2"></i>View Profile
+                        </button>
+                        <button id="edit-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button id="settings" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-cog mr-2"></i>Settings
+                        </button>
+                        <hr class="my-2">
+                        <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
                         </div>
                     </div>
-                    <button id="emergency-btn" class="bg-medical text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                    </div>
+                    <button id="emergency-btn" onclick="toggleEmergencyModal()" class="bg-medical text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
                         <i class="fas fa-phone mr-1"></i> Emergency
                     </button>
                 </div>
             </div>
         </div>
     </nav>
-        <!-- Main Content -->
+    <!-- Main Content -->
     <main class="pt-16 min-h-screen">
         <!-- Dashboard Section -->
         <section id="dashboard-section" class="section active">
@@ -230,95 +237,6 @@
         </section>
 
 
-<!-- AI Diagnosis Section -->
-<section id="diagnosis-section" class="section">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-gray-900">AI-Powered Diagnosis</h1>
-            <p class="text-gray-600 mt-2">Select the type of health assessment you need</p>
-        </div>
-
-        <!-- Disease Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-            <!-- General Symptoms Checker -->
-            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="general">
-                <div class="flex flex-col items-center text-center">
-                    <div class="bg-blue-100 rounded-full p-4 mb-4">
-                        <i class="fas fa-head-side-cough text-blue-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag/">General Symptoms Check</a></h3>
-                    <p class="text-gray-600 text-sm mt-2">Check common symptoms like fever, cough, headache</p>
-                </div>
-            </div>
-
-            <!-- Diabetes Prediction -->
-             <label for="ai_diag3">
-            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="diabetes">
-                <div class="flex flex-col items-center text-center">
-                    <div class="bg-green-100 rounded-full p-4 mb-4">
-                        <i class="fas fa-vial text-green-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag3/" id="ai_diag3">Diabetes Check</a></h3>
-                    <p class="text-gray-600 text-sm mt-2">Assess your risk for diabetes based on health metrics</p>
-                </div>
-            </div>
-            </label>
-            <!-- Heart Disease -->
-            <label for="heartDiseaseCheck">
-            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="heart">
-                <div class="flex flex-col items-center text-center">
-                    <div class="bg-red-100 rounded-full p-4 mb-4">
-                        <i class="fas fa-heartbeat text-red-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag1/" id="heartDiseaseCheck">Heart Health Check</a></h3>
-                    <p class="text-gray-600 text-sm mt-2">Evaluate your cardiovascular health risk</p>
-                </div>
-            </div>
-            </label>
-
-            <!-- Skin Disease -->
-            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer disease-card" data-type="skin">
-                <div class="flex flex-col items-center text-center">
-                    <div class="bg-yellow-100 rounded-full p-4 mb-4">
-                        <i class="fas fa-allergies text-yellow-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-900"><a href="/ai_diag2/">Dengue Check</a></h3>
-                    <p class="text-gray-600 text-sm mt-2">Analyze Dengue from Symptoms</p>
-                </div>
-            </div>
-
-
-
-
-
-        <!-- Diagnosis Form (Hidden by default) -->
-        <div id="diagnosis-form-container" class="hidden">
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex items-center mb-4">
-                    <button id="back-to-categories" class="mr-4 text-gray-500 hover:text-primary">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2 id="diagnosis-title" class="text-xl font-semibold text-gray-900">General Symptoms Check</h2>
-                </div>
-                
-                <!-- Dynamic form content will be loaded here -->
-                <div id="diagnosis-form-content">
-                    <!-- Form will be populated by JavaScript based on disease type -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Analysis Results (Hidden by default) -->
-        <div id="analysis-results" class="hidden">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Analysis Results</h2>
-                <div id="diagnosis-content">
-                    <!-- Results will be populated by JavaScript -->
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
         <!-- Family Section -->
@@ -389,6 +307,123 @@
         </section>
     </main>
 
+
+    
+
+
+   <!-- Emergency Modal -->
+    <div id="emergency-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-medical text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Emergency Services</h2>
+                <p class="text-gray-600 mb-6">Are you experiencing a medical emergency?</p>
+                <div class="space-y-3">
+                    <button class="w-full bg-medical text-white py-3 rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-2" href="tel:100"></i>
+                        Call Police:100
+                    </button>
+                    <button class="w-full bg-medical text-white py-3 rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-2" href="tel:101"></i>
+                        Call FireFighter:101
+                    </button>
+                    <button class="w-full bg-medical text-white py-3 rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-2" href="tel:102"></i>
+                        Call Ambulance:102
+                    </button>
+
+
+                    <button onclick="toggleMap()" class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        Find Nearest Hospital
+                    </button>
+
+                    <button id="close-emergency" class="w-full bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition-colors">Cancel
+                    </button>
+              
+
+
+                    <!-- Map + List Container (Modal) -->
+                    <div id="mapModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                        <div class="bg-white rounded-lg w-11/12 max-w-6xl p-4 relative flex flex-col md:flex-row gap-4">
+                            
+                            <!-- Close Button -->
+                            <button onclick="toggleMap()" class="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl">&times;</button>
+
+                            <!-- Left: Embedded Google Map -->
+                            <div class="w-full md:w-2/3">
+                            <iframe
+                                id="map-frame"
+                                src="https://www.google.com/maps?q=nearest%20hospital&output=embed"
+                                width="100%" height="450" style="border:0; border-radius: 0.5rem;"
+                                allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                            </div>
+
+                        <!-- Right: Hospital List -->
+                        <div class="w-full md:w-1/3 overflow-y-auto max-h-[450px]">
+                            <h2 class="text-xl font-bold mb-2 text-primary">Top 10 Nearby Hospitals</h2>
+                            <ul class="space-y-3">
+                                <li onclick="showHospital('Patan Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Patan Hospital
+                                </li>
+                                <li onclick="showHospital('B&B Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> B&B Hospital
+                                </li>
+                                <li onclick="showHospital('Grande International Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Grande International Hospital
+                                </li>
+                                <li onclick="showHospital('Teaching Hospital Maharajgunj')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Teaching Hospital Maharajgunj
+                                </li>
+                                <li onclick="showHospital('Norvic International Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Norvic International Hospital
+                                </li>
+                                <li onclick="showHospital('Alka Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Alka Hospital
+                                </li>
+                                <li onclick="showHospital('KIST Medical College')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> KIST Medical College
+                                </li>
+                                <li onclick="showHospital('Bir Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Bir Hospital
+                                </li>
+                                <li onclick="showHospital('Om Hospital & Research Center')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Om Hospital & Research Center
+                                </li>
+                                <li onclick="showHospital('Shree Harsha Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Shree Harsha Hospital
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- This is profile js -->
+    <script>
+    const profileToggle = document.getElementById('profile-toggle');
+    const profileDropdown = document.getElementById('profile-dropdown');
+
+    // Toggle dropdown
+    profileToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent click from propagating to window
+        profileDropdown.classList.toggle('hidden');
+    });
+
+    // Hide dropdown when clicking outside
+    window.addEventListener('click', function (e) {
+        if (!profileDropdown.contains(e.target)) {
+        profileDropdown.classList.add('hidden');
+        }
+    });
+    </script>
+
+<script src="{% static 'js/emergency.js' %}"></script>
 
 </body>
 </html>
