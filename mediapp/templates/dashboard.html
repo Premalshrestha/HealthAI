@@ -352,7 +352,7 @@
 
                             <!-- Left: Embedded Google Map -->
                             <div class="w-full md:w-2/3">
-                            <iframe
+                                <iframe
                                 id="map-frame"
                                 src="https://www.google.com/maps?q=nearest%20hospital&output=embed"
                                 width="100%" height="450" style="border:0; border-radius: 0.5rem;"
@@ -365,17 +365,17 @@
                         <div class="w-full md:w-1/3 overflow-y-auto max-h-[450px]">
                             <h2 class="text-xl font-bold mb-2 text-primary">Top 10 Nearby Hospitals</h2>
                             <ul class="space-y-3">
-                                <li onclick="showHospital('Patan Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
-                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Patan Hospital
+                                <li onclick="showHospital('Bir Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Bir Hospital
                                 </li>
-                                <li onclick="showHospital('B&B Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
-                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> B&B Hospital
+                                <li onclick="showHospital('Civil Service Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Civil Service Hospital
                                 </li>
-                                <li onclick="showHospital('Grande International Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
-                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Grande International Hospital
+                                <li onclick="showHospital('Kantipur Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Kantipur Hospital Pvt. Ltd.
                                 </li>
-                                <li onclick="showHospital('Teaching Hospital Maharajgunj')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
-                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Teaching Hospital Maharajgunj
+                                <li onclick="showHospital('Sukraraj Tropical Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
+                                <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Sukraraj Tropical Hospital
                                 </li>
                                 <li onclick="showHospital('Norvic International Hospital')" class="flex items-center cursor-pointer text-gray-700 hover:text-blue-600 transition">
                                 <i class="fas fa-map-marker-alt mr-3 text-blue-500"></i> Norvic International Hospital
@@ -424,6 +424,19 @@
     </script>
 
 <script src="{% static 'js/emergency.js' %}"></script>
+   <script>
+  function toggleMap() {
+    const modal = document.getElementById('mapModal');
+    modal.classList.toggle('hidden');
+    modal.classList.toggle('flex');
+  }
+
+  function showHospital(name) {
+    const frame = document.getElementById('map-frame');
+    const location = encodeURIComponent(name + " Kathmandu Nepal");
+    frame.src = `https://www.google.com/maps?q=${location}&output=embed`;
+  }
+</script>
 
 </body>
 </html>
