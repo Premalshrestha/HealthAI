@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User,Group
 from .models import UserProfile,Family
 
 
@@ -16,3 +17,21 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(Family)
 class FamilyAdmin(admin.ModelAdmin):
     list_display = ['name', 'created_at']
+
+admin.site.unregister(Group)
+#Mix profile info imto user user info
+class ProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+
+
+
+class UserAdmin(admin.ModelAdmin):
+    model = User
+    fields = ['username','first_name','last_name','email','password']
+    inlines = [ProfileInline]
+
+admin.site.unregister(User)
+
+admin.site.register(User, UserAdmin)

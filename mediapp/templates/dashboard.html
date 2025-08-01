@@ -61,7 +61,7 @@
                     <div class="relative inline-block text-left">
                     <button id="profile-toggle" class="flex items-center space-x-2 focus:outline-none">
                         <i class="fas fa-user-circle text-2xl text-gray-700"></i>
-                        <span class="text-gray-700">Profile</span>
+                        <span class="text-gray-700">{{user.username}} </span>
                     </button>
 
                     <!-- Dropdown Menu -->
@@ -90,6 +90,7 @@
             </div>
         </div>
     </nav>
+    
     <!-- Main Content -->
     <main class="pt-16 min-h-screen">
         <!-- Dashboard Section -->
@@ -166,8 +167,8 @@
                         <div class="flex items-center mb-4">
                             <img id="dashboard-avatar" src="" alt="Profile" class="w-16 h-16 rounded-full object-cover mr-4">
                             <div>
-                                <h2 class="text-xl font-semibold text-gray-900" id="dashboard-name">Premal Shrestha</h2>
-                                <p class="text-gray-600" id="dashboard-email">premal@mymail.com</p>
+                                <h2 class="text-xl font-semibold text-gray-900" id="dashboard-name">{{user.username}}</h2>
+                                <p class="text-gray-600" id="dashboard-email">{{user.email}}</p>
                                 <p class="text-sm text-gray-500" id="dashboard-age">Age: 25</p>
 
 

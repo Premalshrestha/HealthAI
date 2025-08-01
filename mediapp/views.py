@@ -84,16 +84,41 @@ def user_signup(request):
 
 
 @login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def user_dashboard(request):
+    print("Dashboard view called")  # Debug log
+
+
+    user = request.user
+    print(user.username)
+    print(user.email)
+    print(user.first_name)
+    print(user.last_name)
+
+    return render(request, 'dashboard.html', {'user': user})
 
 @login_required
 def diagnosis(request):
     return render(request, 'diagnosis.html')
-
+from pyexpat.errors import messages
+from django.contrib.auth.decorators import login_required
 @login_required
 def family(request):
-    return render(request, 'family.html')
+    print("Family view called")  # Debug log
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=request.user)
+        print(profile.family)
+        family = profile.family
+        
+        members = UserProfile.objects.filter(family=profile.family)
+        print("Family members:", members)
+    else:
+        messages.success(request, 'You Must logged in')
+        return redirect('/')
+
+    print(profile)
+
+
+    return render(request, 'family.html', {'family': family, 'members': members})
 
 @login_required
 def doctors(request):   
@@ -108,3 +133,120 @@ def user_logout(request):
     logout(request)
     return redirect('landing_page')
 
+def ai_diagnosis0(request):
+   return render(request, 'AI_diag0.html')
+
+def ai_diagnosis1(request):
+   return render(request, 'AI_diag1.html')
+
+def ai_diagnosis2(request):
+   return render(request, 'AI_diag2.html')
+
+def ai_diagnosis3(request):
+   return render(request, 'AI_diag3.html')
+
+from .models import Family, UserProfile
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .models import UserProfile
+
+@login_required
+def add_family(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+
+        try:
+            # Get the user by username
+            target_user = User.objects.get(username=username)
+            target_profile = UserProfile.objects.get(user=target_user)
+
+            # Current user's profile and family
+            current_profile = UserProfile.objects.get(user=request.user)
+
+            if not current_profile.family:
+                return render(request, 'add_family.html', {
+                    'error': 'You are not associated with any family. Please create a family first.'
+                })
+
+            # Assign the found user to the same family
+            target_profile.family = current_profile.family
+            target_profile.save()
+
+            return render(request, 'add_family.html', {
+                'success': f'User "{target_user.username}" added to your family successfully.'
+            })
+
+        except User.DoesNotExist:
+            return render(request, 'add_family.html', {'error': 'User with that username does not exist.'})
+        except UserProfile.DoesNotExist:
+            return render(request, 'add_family.html', {'error': 'User profile not found.'})
+
+    return render(request, 'add_family.html')
+
+
+
+# View to collect the answer from the form and move to the next question
+import os
+import pickle
+from django.shortcuts import render
+from .forms import HeartPredictionForm
+from django.conf import settings
+model = None
+
+def load_model():
+    global model
+    if model is None:
+        model_path = os.path.join(settings.BASE_DIR, 'medimatee', 'model', 'framingham_model.pkl')
+        with open(model_path, 'rb') as f:
+            model = pickle.load(f)
+
+load_model()
+
+def predict_heart_disease(request):
+    prediction = None
+    probability = None
+
+    if request.method == 'POST':
+        form = HeartPredictionForm(request.POST)
+        if form.is_valid():
+            data = [
+                int(form.cleaned_data['male']),
+                form.cleaned_data['age'],
+                int(form.cleaned_data['currentSmoker']),
+                form.cleaned_data['cigsPerDay'],
+                int(form.cleaned_data['BPMeds']),
+                int(form.cleaned_data['prevalentStroke']),
+                int(form.cleaned_data['prevalentHyp']),
+                int(form.cleaned_data['diabetes']),
+                form.cleaned_data['totChol'],
+                form.cleaned_data['sysBP'],
+                form.cleaned_data['diaBP'],
+                form.cleaned_data['BMI'],
+                form.cleaned_data['heartRate'],
+                form.cleaned_data['glucose'],
+                int(form.cleaned_data['cholesterolLevel']),
+                int(form.cleaned_data['obesity']),
+                int(form.cleaned_data['bloodPressureLevel']),
+                int(form.cleaned_data['heartRateLevel']),
+                int(form.cleaned_data['diabetesLevel']),
+                int(form.cleaned_data['chestPain_1']),
+                int(form.cleaned_data['shortnessOfBreath_yes']),
+                int(form.cleaned_data['dizziness_yes']),
+                int(form.cleaned_data['hereditaryDisease_yes']),
+            ]
+
+            prediction = model.predict([data])[0]
+            probability = model.predict_proba([data])[0][1] * 100
+
+    else:
+        form = HeartPredictionForm()
+
+    return render(request, 'prediction_form.html', {
+        'form': form,
+        'prediction': prediction,
+        'probability': round(probability, 2) if probability is not None else None,
+        })

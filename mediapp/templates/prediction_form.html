@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Heart Disease Prediction</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 30px;
+        background: #f4f4f4;
+      }
+      form {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: auto;
+      }
+      label,
+      select,
+      input {
+        display: block;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .result {
+        margin-top: 20px;
+        font-size: 1.2em;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">Heart Disease Risk Prediction</h2>
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction is not None %}
+    <div class="result">
+      <p><strong>Prediction:</strong> {{ prediction }}</p>
+      <p><strong>Risk Probability:</strong> {{ probability }}%</p>
+    </div>
+    {% endif %}
+  </body>
+</html>
