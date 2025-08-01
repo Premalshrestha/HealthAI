@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medimate - AI-Powered Health Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        medical: '#EF4444',
+                        success: '#22C55E',
+                        warning: '#F59E0B',
+                        error: '#EF4444'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+     <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-heartbeat text-primary text-2xl mr-2"></i>
+                        <span class="text-2xl font-bold text-gray-900">Medimate</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="nav-dashboard" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
+                    </button>
+                    <button id="nav-diagnosis" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-stethoscope mr-1"></i> AI Diagnosis
+                    </button>
+
+
+                    <button id="nav-family" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-users mr-1"></i> Family
+                    </button>
+                    <button id="nav-consultations" class="nav-btn text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        <i class="fas fa-video mr-1"></i> Doctors
+                    </button>
+                    <div class="relative">
+                        <button id="profile-btn" class="flex items-center space-x-2 text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            <img id="user-avatar" src="" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+                            <span id="user-name">User</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                            <div class="py-2">
+                                <button id="view-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-user mr-2"></i>View Profile
+                                </button>
+                                <button id="edit-profile" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i>Edit Profile
+                                </button>
+                                <button id="settings" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </button>
+                                
+                                <hr class="my-2">
+                                <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="emergency-btn" class="bg-medical text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors">
+                        <i class="fas fa-phone mr-1"></i> Emergency
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Diagnosis Section -->
+<section id="diagnosis-section" class="section mt-8 pt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-900">Heart Diagnosis</h1>
+            <p class="text-gray-600 mt-2">Describe your symptoms through speech, upload reports, or chat with AI</p>
+        </div>
+
+            <!-- 3 Column Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Voice Input -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-microphone text-primary mr-2"></i> Voice Symptoms
+                </h2>
+                <div class="text-center">
+                    <button id="speech-btn" class="bg-primary text-white px-8 py-4 rounded-full text-lg hover:bg-blue-600 transition-colors mb-4">
+                        <i class="fas fa-microphone mr-2"></i>
+                        <span id="speech-btn-text">Start Recording</span>
+                    </button>
+                    <p class="text-gray-600 mb-4">Click to describe your symptoms</p>
+                    <div id="speech-result" class="bg-gray-50 rounded-lg p-4 min-h-24 text-left hidden">
+                        <h3 class="font-semibold text-gray-900 mb-2">Transcription:</h3>
+                        <p id="speech-text" class="text-gray-700"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Upload -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-file-pdf text-red-500 mr-2"></i> Upload Medical Report
+                </h2>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <input type="file" id="image-upload" accept=".pdf,image/*" class="hidden">
+                    <label for="image-upload" class="cursor-pointer">
+                        <i class="fas fa-file-upload text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600">Click to upload your PDF</p>
+                        <p class="text-sm text-gray-500 mt-2">PDF supported</p>
+                    </label>
+                    <div id="image-preview" class="mt-4 hidden">
+                        <img id="preview-img" class="max-w-full h-48 object-cover rounded-lg mx-auto">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat with AI -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-comments text-green-500 mr-2"></i> Chat with AI
+                    <script>
+                        document.getElementById("chat-btn").addEventListener("click", function () {
+                            window.location.href = "/chat-ai/";
+                        });
+                    </script>
+                </h2>
+                <div class="text-center space-y-4">
+                    <p class="text-gray-600">Ask any health-related questions to our AI assistant.</p>
+                    <button id="chat-btn"  class="bg-green-500 text-white px-6 py-3 rounded-full text-lg hover:bg-green-600 transition-colors">
+                        <i class="fas fa-robot mr-2"></i> <label for="chat-btn"><a href="/go">Start Chat</a></label>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analyze Button -->
+        <div class="text-center mt-8">
+            <button id="analyze-btn" class="bg-accent text-white px-8 py-3 rounded-lg text-lg hover:bg-yellow-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <i class="fas fa-brain mr-2"></i>
+                Analyze Symptoms
+            </button>
+        </div>
+
+        <!-- Analysis Results -->
+        <div id="analysis-results" class="mt-8 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Analysis Results</h2>
+                <div id="diagnosis-content">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <script src="{% static 'js/ai-diag.js' %}"></script>
+</body>
+</html>
