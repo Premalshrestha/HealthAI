@@ -200,7 +200,7 @@ model = None
 def load_model():
     global model
     if model is None:
-        model_path = os.path.join(settings.BASE_DIR, 'medimatee', 'model', 'framingham_model.pkl')
+        model_path = os.path.join(settings.BASE_DIR, 'mediapp', 'model', 'framingham_model.pkl')
         with open(model_path, 'rb') as f:
             model = pickle.load(f)
 

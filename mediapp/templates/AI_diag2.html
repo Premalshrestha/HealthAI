@@ -102,8 +102,9 @@
                 </h2>
                 <div class="text-center">
                     <button id="speech-btn" class="bg-primary text-white px-8 py-4 rounded-full text-lg hover:bg-blue-600 transition-colors mb-4">
-                        <i class="fas fa-microphone mr-2"></i>
+                        <i class="fas fa-microphone mr-2"></i><a href="{% url 'predict_heart_disease' %}">
                         <span id="speech-btn-text">Start Recording</span>
+                        </a>
                     </button>
                     <p class="text-gray-600 mb-4">Click to describe your symptoms</p>
                     <div id="speech-result" class="bg-gray-50 rounded-lg p-4 min-h-24 text-left hidden">
